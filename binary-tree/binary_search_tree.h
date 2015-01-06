@@ -32,6 +32,7 @@ struct bst_root {
 
 struct bst_root *bst_init(int (*cmp)(void *, void *));
 int bst_insert(struct bst_root *root, void *data);
+int bst_delete(struct bst_root *root, void *data);
 void bst_inorder_traverse(struct bst_root *root, void (*func)(void *));
 void bst_inorder_traverse_stack(struct bst_root *root, void (*func)(void *));
 void bst_postorder_traverse(struct bst_root *root, void (*func)(void *));

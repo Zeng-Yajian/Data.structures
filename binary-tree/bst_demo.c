@@ -34,5 +34,20 @@ int main(int argc, char **argv)
 	printf("postorder traverse:\n");
 	bst_postorder_traverse(tree, item_dump);
 
+	printf("del %d\n", array[1]);
+	bst_delete(tree, &array[1]);
+	printf("inorder traverse (use stack):\n");
+	bst_inorder_traverse_stack(tree, item_dump);
+
+	printf("del %d\n", array[5]);
+	bst_delete(tree, &array[5]);
+	printf("inorder traverse (use stack):\n");
+	bst_inorder_traverse_stack(tree, item_dump);
+
+	printf("del %d\n", array[0]);
+	bst_delete(tree, &array[0]);
+	printf("inorder traverse (use stack):\n");
+	bst_inorder_traverse_stack(tree, item_dump);
+
 	return 0;
 }

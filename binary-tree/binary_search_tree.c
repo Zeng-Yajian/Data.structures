@@ -99,7 +99,7 @@ int bst_insert(struct bst_root *root, void *data)
 	struct bst_node *new;
 
 	if (!__bst_search(root, data, &p)) {
-		new = malloc(sizeof(new));
+		new = malloc(sizeof(struct bst_node));
 		new->data = data;
 		new->lchild = new->rchild = NULL;
 
@@ -114,6 +114,53 @@ int bst_insert(struct bst_root *root, void *data)
 	}
 
 	/* the data is already in the bst */
+	return -1;
+}
+
+void __bst_delete_by_merging(struct bst_node **parent)
+{
+	struct bst_node *del = *parent;
+	struct bst_node *tmp;
+
+	if (!del) return;
+
+	if (!del->rchild) {
+		*parent = del->lchild;
+	} else if (!del->lchild) {
+		*parent = del->rchild;
+	} else {
+		tmp = del->lchild;
+		while (tmp->rchild) tmp = tmp->rchild;
+
+		tmp->rchild = del->rchild;
+		*parent = del->lchild;
+	}
+
+	free(del);
+}
+
+int bst_delete(struct bst_root *root, void *data)
+{
+	struct bst_node **parent = &root->root;
+	struct bst_node *p = root->root;
+	int ret;
+
+	/* find the node to be del */
+	while (p) {
+		ret = root->cmp(data, p->data);
+		if (ret==0) {
+			break; /* find the node */
+		} else {
+			parent = (ret>0) ? &(p->rchild) : &(p->lchild);
+			p = (ret>0) ? p->rchild : p->lchild;
+		}
+	}
+
+	if (*parent) {
+		__bst_delete_by_merging(parent);
+		return 0;
+	}
+
 	return -1;
 }
 
